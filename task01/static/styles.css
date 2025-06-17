@@ -1,0 +1,155 @@
+/* reset styles for consistent appearance across browsers */
+/* this reset ensures that all elements have no default margin or padding,
+   and that box-sizing is set to border-box for easier sizing calculations. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* body styled for the dark theme */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #161624; /* dark background from example */
+    color: #eee; /* light text color for readability */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px; /* add some padding for smaller screens */
+}
+.container {
+    background-color: #060c21; /* Dark inner background */
+    padding: 2rem 3rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    position: relative; /* crucial for positioning the pseudo-elements */
+    z-index: 0; /* needed to correctly stack pseudo-elements behind */
+}
+
+
+/* this custom property will be animated */
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 53deg;
+    inherits: false;
+}
+
+@keyframes glowing-border {
+    from {
+        --angle: 53deg;
+    }
+    to {
+        --angle: 413deg; /* 53 + 360 */
+    }
+}
+
+/* the ::before and ::after pseudo-elements create the border */
+.container::before,
+.container::after {
+    content: "";
+    position: absolute;
+    inset: -3px; /* to control the thickness of the border */
+    z-index: -1; /* to place the border behind the container's content */
+    background: conic-gradient(from var(--angle), #0c63e7, #060c21, #d11149, #060c21, #0c63e7);
+    border-radius: inherit; /* Matches the container's border-radius */
+}
+
+/* the ::after element adds the blurred "glow" effect */
+.container::after {
+    z-index: -2;
+    filter: blur(20px);
+}
+
+/* the animation is triggered on hover */
+.container:hover::before,
+.container:hover::after {
+    animation: glowing-border 4s linear infinite;
+}
+
+h1 {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+p {
+    color: #ccc;
+    margin-bottom: 2rem;
+}
+
+.translator-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap; /* to allow wrapping on smaller screens */
+}
+
+.input-section, .output-section {
+    width: 100%; /* default to full width */
+    min-width: 250px; /* minimum width before stacking */
+    flex: 1; /* allow flexible growth */
+    display: flex;
+    flex-direction: column;
+}
+
+select, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #444; /* darker border */
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: inherit;
+    margin-bottom: 1rem;
+    background-color: #1e1e1e; /* dark background for inputs */
+    color: #eee; /* light text for inputs */
+}
+
+textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+#translated-text {
+    background-color: #1a1a1a; /* slightly different dark bg for output */
+}
+
+#translate-btn {
+    background-color: #0c63e7; /* using a color from the gradient */
+    color: white;
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#translate-btn:hover {
+    background-color: #0a58c8;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-buttons button {
+    flex-grow: 1;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons button:hover {
+    background-color: #5a6268;
+}
